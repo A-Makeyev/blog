@@ -1,0 +1,20 @@
+https://docs.djangoproject.com/
+
+python -m venv env
+env\Scripts\activate
+deactivate
+pip list
+pip install --upgrade pip
+pip install django, Pillow, dj-database-url, psycopg2-binary, gunicorn
+django-admin startproject blog .
+python manage.py runserver 8000
+python manage.py startapp blog
+python manage.py createsuperuser
+
+pip freeze > requirements.txt
+gunicorn blog.wsgi
+
+python manage.py sqlmigrate blog 0001
+python manage.py showmigrations
+python manage.py migrate       
+python manage.py shell
