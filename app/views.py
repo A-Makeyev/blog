@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from app.forms import CommentForm
 from app.models import Comments, Post
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 def index(request):
     context = { 'posts': Post.objects.all() }
@@ -19,6 +21,7 @@ def post_page(request, slug):
             post = Post.objects.get(id=post_id)
             comment.post = post
             comment.save()
+            return HttpResponseRedirect(reverse('post_page', kwargs={ 'slug': slug }))
     
     if post.view_count is None:
         post.view_count = 1
