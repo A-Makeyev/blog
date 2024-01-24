@@ -23,6 +23,7 @@
 
 html {
   font-size: 62.5%;
+  scroll-behavior: smooth;
 }
 
 [class*="grid"] {
@@ -643,20 +644,6 @@ footer .container {
   margin-top: 1rem;
 }
 
-.reply {
-  display: flex;
-  align-items: center;
-  width: fit-content;
-  gap: 1rem;
-  margin-left: auto;
-  margin-top: 0.5rem;
-}
-
-.reply i {
-  font-size: 2rem;
-  color: var(--red);
-}
-
 .public-reply {
   margin-top: 0;
 }
@@ -886,6 +873,18 @@ p a {
   font-weight: 500;
   text-decoration: underline;
 }
+.reply {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 1rem;
+  margin-left: auto;
+  margin-top: 0.5rem;
+}
+.reply i {
+  font-size: 2rem;
+  color: var(--red);
+}
 .reply-box {
   width: 100%;
 }
@@ -1062,5 +1061,6 @@ main {
   font-size: 3rem;
 }
 .reply button {
+  cursor: pointer;
   background: transparent;
 }

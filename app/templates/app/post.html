@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %} Blog | The Super Blog {% endblock title %}
-
 {% block content %}
     <div class="container">
         <div class="layout">
@@ -26,7 +26,7 @@
                         <div class="timeline">
                             <div class="track">
                             <i class="uil uil-clock"></i>
-                            <p class="time">{{post.last_updated|date}}</p>
+                            <p class="time">{{post.last_updated | date}}</p>
                             </div>
                             <div class="track">
                                 <i class="uil uil-users-alt"></i>
@@ -89,10 +89,10 @@
 
                             {% for comment in comments %}
                                 <!-- comments -->
-                                <div class="user-comment">
+                                <div id="comment-{{comment.id}}" class="user-comment">
                                     <div class="author">
                                         <div class="profile-pic">
-                                            <img src="../images/author.svg" alt="" />
+                                            <img src="{% static 'images/author.svg' %}" alt="" />
                                         </div>
                                         <div class="details">
                                             <p>{{comment.name}}</p>
@@ -114,37 +114,39 @@
                                                     are marked<span>*</span>
                                                 </p>
                                                 <form method="POST">
-                                                    <textarea name="content" cols="40" rows="10" placeholder="Type your comment...." required id="id_content"></textarea>
+                                                    {% csrf_token %}
+                                                    {{form.content}}
                                                     <div class="grid-3">
-                                                        <input type="text" name="name" maxlength="200" placeholder="Name" required id="id_name">
-                                                        <input type="text" name="email" maxlength="200" placeholder="Email" required id="id_email">
-                                                        <input type="text" name="website" maxlength="200" placeholder="Website" id="id_website">
+                                                        {{form.name}}
+                                                        {{form.email}}
+                                                        {{form.website}}
+                                                        <input type="hidden" name="post_id" value="{{post.id}}">
+                                                        <input type="hidden" name="parent" value="{{comment.id}}">
                                                     </div>
-                                                    <button class="btn btn-primary rounded">
-                                                    Post Reply
-                                                    </button>
+                                                    <button class="btn btn-primary rounded">Post Reply</button>
                                                 </form>
                                             </div>  
-
                                         </div>
                                         
-                                        <div class="public-reply">
-                                            <div class="author">
-                                            <div class="profile-pic">
-                                                <img src="../images/author.svg" alt="" />
+                                        {% for reply in comment.replies.all %} 
+                                            <!-- Replies -->
+                                            <div id="reply-{{reply.id}}" class="public-reply">
+                                                <div class="author">
+                                                <div class="profile-pic">
+                                                    <img src="{% static 'images/author.svg' %}" alt="" />
+                                                </div>
+                                                <div class="details">
+                                                    <p>{{reply.name}}</p>
+                                                    <small>{{reply.date | date}}</small>
+                                                </div>
+                                                </div>
+                                                <div class="comment">
+                                                <p>{{reply.content}}</p>
+                                                </div>
                                             </div>
-                                            <div class="details">
-                                                <p>Author name</p>
-                                                <small>June 20, 2022</small>
-                                            </div>
-                                            </div>
-                                            <div class="comment">
-                                            <p>
-                                                Lorem ipsum dolor sit amet consectetur adipisicing
-                                                elit. Tempora magnam minima harum, dignissimos
-                                            </p>
-                                            </div>
-                                        </div>
+                                            <!-- Replies end -->
+                                        {% endfor %}
+
                                     </div>
                                 </div>
                                 <!-- Comment end -->
@@ -162,10 +164,10 @@
                                 {% csrf_token %}
                                 {{form.content}}
                                 <div class="grid-3">
-                                    <input type="hidden" name="post_id" value="{{post.id}}">
                                     {{form.name}}
                                     {{form.email}}
                                     {{form.website}}
+                                    <input type="hidden" name="post_id" value="{{post.id}}">
                                 </div>
                                 <button class="btn btn-primary rounded">Post comment</button>
                             </form>
