@@ -1,3 +1,5 @@
+if static files don't update clear cached images and files
+
 https://docs.djangoproject.com/
 
 python -m venv env
@@ -21,8 +23,8 @@ python manage.py migrate
 python manage.py shell
 
 from app.models import Post, Tag, Comments
-posts = Post.objects.all()
-posts[0].tags.all()
+popular_posts = Post.objects.all().order_by('-view_count')[0:3]
+popular_posts[0].tags.all()
 comment_1 = Comments.objects.get(id=1) 
 reply = comment_1.replies.all()[0].content
 

@@ -2,6 +2,10 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 
+class Subscribe(models.Model):
+    email = models.EmailField(max_length=200)
+    date = models.DateTimeField(auto_now=True)
+
 class Tag(models.Model):
     name  = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
@@ -22,6 +26,7 @@ class Post(models.Model):
     view_count = models.IntegerField(null=True, blank=True)
     tags = models.ManyToManyField(Tag, blank=True, related_name='post')
     image = models.ImageField(upload_to='images/', null=True, blank=True)
+    is_featured = models.BooleanField(default=False)
 
 class Comments(models.Model):
     content = models.TextField()

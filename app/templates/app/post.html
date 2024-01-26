@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block title %} Blog | The Super Blog {% endblock title %}
+{% load static %}
 {% block content %}
     <div class="container">
         <div class="layout">
@@ -20,9 +20,7 @@
 
                 <center>
                     <div class="typo">
-                        <h1 class="title blog-title">
-                            {{post.title}}
-                        </h1>
+                        <h1 class="title blog-title">{{post.title}}</h1>
                         <div class="timeline">
                             <div class="track">
                             <i class="uil uil-clock"></i>
@@ -55,7 +53,7 @@
                             <div class="blog-tags">
 
                                 {% for tag in post.tags.all %}
-                                    <div class="tag">{{tag.name}}</div>
+                                    <a href="{% url 'tag_page' tag.slug %}"><div class="tag">{{tag.name}}</div></a>
                                 {% endfor %}
 
                             </div>
@@ -72,16 +70,16 @@
                                 <div class="share">
                                 <div class="social">
                                     <a href="#">
-                                    <i class="fa-brands fa-facebook-f"></i>
+                                        <i class="fa-brands fa-facebook-f"></i>
                                     </a>
                                     <a href="#">
-                                    <i class="fa-brands fa-instagram"></i>
+                                        <i class="fa-brands fa-instagram"></i>
                                     </a>
                                     <a href="#">
-                                    <i class="fa-brands fa-linkedin-in"></i>
+                                        <i class="fa-brands fa-linkedin-in"></i>
                                     </a>
                                     <a href="#">
-                                    <i class="fa-brands fa-twitter"></i>
+                                        <i class="fa-brands fa-twitter"></i>
                                     </a>
                                 </div>
                                 </div>
