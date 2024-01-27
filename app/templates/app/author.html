@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Blog | {{tag.name}} {% endblock title %}
+{% block title %} Blog | {{profile.user.first_name}} {% endblock title %}
 {% load static %}
 {% block content %}
   <div class="container">
@@ -9,15 +9,15 @@
         <div class="page-top">
           <div class="top flex">
             <div class="page-name">
-              <a href="#" class="learn"><span class="material-icons"> keyboard_return </span>Go back</a>
-              <h1>Tag</h1>
+              <a href="#" class="learn"><span class="material-icons">keyboard_return</span>Go back</a>
+              <h1>Author</h1>
             </div>
           </div>
         </div>
         <center>
           <div class="typo">
-            <h1 class="title">{{tag.name}}</h1>
-            <p>{{tag.description}}</p>
+            <h1 class="title">{{profile.user.first_name}}</h1>
+            <p>{{profile.bio}}</p>
           </div>
         </center>
         <section class="sp">
@@ -30,14 +30,14 @@
                 <a href="{% url 'post_page' post.slug %}">
                   <div class="card">
                     <div class="post-img">
-                      <img src="{{post.image.url}}" alt="" />
+                      <img src="{{post.image.url}}" alt="{{post.title}}" />
                       <div class="tag">{{post.tags.all.0.name}}</div>
                     </div>
                     <div class="card-content">
                       <h3>{{post.title}}</h3>
                       <div class="author">
                         <div class="profile-pic">
-                          <img src="{{post.author.profile.profile_image.url}}" alt="" />
+                          <img src="{{post.author.profile.profile_image.url}}" alt="{{post.author.first_name}}"/>
                         </div>
                         <div class="details">
                           <p>{{post.author.first_name}}</p>
@@ -65,14 +65,14 @@
                 <a href="{% url 'post_page' post.slug %}">
                   <div class="card">
                     <div class="post-img">
-                      <img src="{{post.image.url}}" alt="" />
+                      <img src="{{post.image.url}}" alt="{{post.title}}"/> 
                       <div class="tag">{{post.tags.all.0.name}}</div>
                     </div>
                     <div class="card-content">
                       <h3>{{post.title}}</h3>
                       <div class="author">
                         <div class="profile-pic">
-                          <img src="{{post.author.profile.profile_image.url}}" alt="" />
+                          <img src="{{post.author.profile.profile_image.url}}" alt="{{post.author.first_name}}"/>
                         </div>
                         <div class="details">
                           <p>{{post.author.first_name}}</p>
@@ -91,7 +91,7 @@
             <center>
               <button class="btn btn-primary rounded view">
                 View more
-                <span class="material-icons"> trending_flat </span>
+                <span class="material-icons">trending_flat</span>
               </button>
             </center>
           </div>
@@ -102,14 +102,20 @@
       <!-- right layout -->
       <div class="right">
         <div class="block">
-          <h2 class="title2">Explore</h2>
-          <div class="blog-tags">
+          <h2 class="title2">Top Authors</h2>
 
-            {% for tag in tags %}  
-              <a href="{% url 'tag_page' tag.slug %}" class="tag">{{tag.name}}</a>
-            {% endfor %}
+          {% for author in top_authors %}
+            <div class="recent-post other-author">
+              <div class="rounded-img">
+                <img src="{{author.profile.profile_image.url}}" alt="{{author.first_name}}"/>
+              </div>
+              <div class="recent-content">
+                <h3>{{author.first_name}}</h3>
+                <a class="learn" href="{% url 'author_page' author.profile.slug %}">Learn more<span class="material-icons">trending_flat</span></a>
+              </div>
+            </div>
+          {% endfor %}
 
-          </div>
         </div>
       </div>
       <!-- right layout end -->

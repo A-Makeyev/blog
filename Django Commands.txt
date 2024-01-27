@@ -21,10 +21,3 @@ python manage.py showmigrations
 python manage.py makemigrations
 python manage.py migrate       
 python manage.py shell
-
-from app.models import Post, Tag, Comments
-popular_posts = Post.objects.all().order_by('-view_count')[0:3]
-popular_posts[0].tags.all()
-comment_1 = Comments.objects.get(id=1) 
-reply = comment_1.replies.all()[0].content
-
