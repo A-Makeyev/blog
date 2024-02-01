@@ -34,7 +34,6 @@ class Tag(models.Model):
         return self.name
     
 class Post(models.Model):
-    content = models.TextField()
     title = models.CharField(max_length=200)
     last_updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -43,9 +42,9 @@ class Post(models.Model):
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     is_featured = models.BooleanField(default=False)
+    content = models.TextField()
     
 class Comments(models.Model):
-    content = models.TextField()
     name = models.CharField(max_length=200)
     email = models.EmailField(max_length=200)
     website = models.CharField(max_length=200)
@@ -53,4 +52,10 @@ class Comments(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     parent = models.ForeignKey('self', related_name='replies', on_delete=models.DO_NOTHING, null=True, blank=True)
+    content = models.TextField()
+    
+class WebsiteMeta(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.CharField(max_length=400)
+    about = models.TextField()
     

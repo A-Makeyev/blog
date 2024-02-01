@@ -47,7 +47,7 @@
                                 <img src="{{post.image.url}}" alt="" />
                             </div>
                             <div class="blog-post-content">
-                            <p>{{post.content}}</p>
+                            <p>{{post.content | safe}}</p>
                             <div class="blog-tags">
 
                                 {% for tag in post.tags.all %}
@@ -98,7 +98,7 @@
                                     <div class="comment-sec-main">
                                         <div class="comment-sec">
                                             <div class="comment">
-                                                <p>{{comment.content}}</p>
+                                                <p>{{comment.content | safe}}</p>
                                             </div>
                                             <div class="reply">
                                                 <button onclick="toggleDiv(this)">Reply</button>
@@ -111,7 +111,7 @@
                                                 </p>
                                                 <form method="POST">
                                                     {% csrf_token %}
-                                                    {{form.content}}
+                                                    {{form.content | safe}}
                                                     <div class="grid-3">
                                                         {{form.name}}
                                                         {{form.email}}
@@ -137,7 +137,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="comment">
-                                                    <p>{{reply.content}}</p>
+                                                    <p>{{reply.content | safe}}</p>
                                                 </div>
                                             </div>
                                             <!-- Replies end -->
@@ -158,7 +158,7 @@
                             </p>
                             <form method="POST">
                                 {% csrf_token %}
-                                {{form.content}}
+                                {{form.content | safe}}
                                 <div class="grid-3">
                                     {{form.name}}
                                     {{form.email}}

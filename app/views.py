@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from app.forms import CommentForm, SubscribeForm
-from app.models import Comments, Post, Tag, Profile
+from app.models import Comments, Post, Tag, Profile, WebsiteMeta
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.db.models import Count
@@ -14,6 +14,10 @@ def index(request):
     if featured_post: featured_post = featured_post[0]
     subscribe_form = SubscribeForm()
     success_message = None
+    website_info = None
+    
+    if WebsiteMeta.objects.all().exists():
+        website_info = WebsiteMeta.objects.all()[0]
     
     if request.POST:
         subscribe_form = SubscribeForm(request.POST)
@@ -23,8 +27,8 @@ def index(request):
             success_message = 'Subscribed Successfully!'
             
     context = {
-        'posts': posts, 'popular_posts': popular_posts, 'recent_posts': recent_posts, 
-        'subscribe_form': subscribe_form, 'success_message': success_message, 'featured_post': featured_post
+        'website_info': website_info, 'posts': posts, 'popular_posts': popular_posts, 'recent_posts': recent_posts, 
+        'featured_post': featured_post, 'subscribe_form': subscribe_form, 'success_message': success_message
     }
     return render(request, 'app/index.html', context)
 
@@ -85,3 +89,12 @@ def search(request):
     
     context = { 'query': query, 'posts': posts }
     return render(request, 'app/search.html', context)
+
+def about(request):
+    website_info = None
+    
+    if WebsiteMeta.objects.all().exists():
+        website_info = WebsiteMeta.objects.all()[0]
+    
+    context = { 'website_info': website_info }
+    return render(request, 'app/about.html', context)

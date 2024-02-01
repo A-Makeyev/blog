@@ -12,11 +12,15 @@
             </a>
           </div>
           <div class="typo">
+            
+          {% if website_info %}
+            <h1 class="title">{{website_info.title}}</h1>
+            <p>{{website_info.description}}</p>
+          {% else %}    
             <h1 class="title">Website blog title</h1>
-            <p>
-              Lorem ipsum began as scrambled, nonsensical Latin derived from
-              Cicero's 1st-century BC text De Finibus Bonorum et Malorum.
-            </p>
+            <p>Cicero's 1st-century BC text De Finibus Bonorum et Malorum</p>
+          {% endif %}
+
           </div>
           <div class="newsletter">
             <form method="POST">
@@ -47,7 +51,7 @@
                   <p>Category name</p>
                 </div>
                 <h1>{{featured_post.title}}</h1>
-                <p class="des">{{featured_post.content | truncatechars:200}}</p>
+                <p class="des">{{featured_post.content | safe | truncatechars:200}}</p>
                 <a class="learn" href="#">Learn more <span class="material-icons"> trending_flat </span></a>
               </div>
             </div>
@@ -126,9 +130,9 @@
           
         </div>
         <center>
-          <a href=""><button class="btn btn-primary rounded view">
-            View more <span class="material-icons"> trending_flat </span>
-          </button></a>
+          <a href="">
+            <button class="btn btn-primary rounded view">View more <span class="material-icons">trending_flat</span></button>
+          </a>
         </center>
       </div>
     </section>
