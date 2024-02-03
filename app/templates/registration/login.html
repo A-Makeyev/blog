@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %} Blog | Login {% endblock title %}
+{% block content %}
+<div class="page-top">
+    <div class="top flex" style="margin-left: 50px">
+        <div class="page-name">
+            <a href="/" class="learn">
+                <span class="material-icons">keyboard_return</span>
+                Go back
+            </a>
+            <h1>LOGIN</h1>
+        </div>
+    </div>
+</div>
+<form method="POST" action="{% url 'login' %}" class="form">
+    {% csrf_token %}
+    <center>
+        <div class="logo f-logo">
+            <i class="fa-brands fa-blogger"></i>
+        </div>
+        <div class="inputs">
+            <div>
+                <div class="search-bar s-active input">
+                    <input type="text" name="username" placeholder="Username">
+                    <div class="animated-search">
+                        <i class="uil uil-envelope-alt"></i>
+                    </div>
+                </div>
+                <div class="search-bar s-active input">
+                    <input type="text" name="password" placeholder="Password">
+                    <div class="animated-search">
+                        <i class="uil uil-key-skeleton"></i>
+                    </div>
+                </div>
+            </div>
+
+            {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <div class="field-error">
+                <p>{{error}}</p>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <button class="btn btn-primary rounded" type="submit">
+                Login
+                <span class="material-icons">arrow_right_alt</span>
+            </button>
+            <p>
+                Don't have an account yet?
+                <a href="{% url 'signup' %}">Sign Up</a>
+            </p>
+        </div>
+    </center>
+</form>
+{% endblock content %}

@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from app.forms import CommentForm, SubscribeForm
+from django.shortcuts import redirect, render
+from app.forms import CommentForm, NewUserForm, SubscribeForm
 from app.models import Comments, Post, Tag, Profile, WebsiteMeta
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.contrib.auth import login
 from django.db.models import Count
 from django.urls import reverse
 
@@ -24,6 +25,7 @@ def index(request):
         if subscribe_form.is_valid():
             subscribe_form.save()
             subscribe_form = SubscribeForm()
+            request.session['subscribed'] = True
             success_message = 'Subscribed Successfully!'
             
     context = {
@@ -98,3 +100,17 @@ def about(request):
     
     context = { 'website_info': website_info }
     return render(request, 'app/about.html', context)
+
+def signup(request):
+    form = NewUserForm()
+    
+    if request.POST:
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/')
+    
+    context = { 'form': form }
+    return render(request, 'registration/signup.html', context)
+    

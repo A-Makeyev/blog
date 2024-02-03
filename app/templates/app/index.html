@@ -13,25 +13,28 @@
           </div>
           <div class="typo">
             
-          {% if website_info %}
-            <h1 class="title">{{website_info.title}}</h1>
-            <p>{{website_info.description}}</p>
-          {% else %}    
-            <h1 class="title">Website blog title</h1>
-            <p>Cicero's 1st-century BC text De Finibus Bonorum et Malorum</p>
-          {% endif %}
+            {% if website_info %}
+              <h1 class="title">{{website_info.title}}</h1>
+              <p>{{website_info.description}}</p>
+            {% else %}    
+              <h1 class="title">Website blog title</h1>
+              <p>Cicero's 1st-century BC text De Finibus Bonorum et Malorum</p>
+            {% endif %}
 
           </div>
           <div class="newsletter">
-            <form method="POST">
-              {% csrf_token %}
-              {{subscribe_form}}
-              <button class="btn btn-primary">Subscribe</button>
-            </form>
 
-            {% if success_message %} 
-              <br><h1 style="color: green;">{{success_message}}</h1>
-            {% endif%}
+            {% if request.session.subscribed == None %}
+              <form method="POST">
+                {% csrf_token %}
+                {{subscribe_form}}
+                <button class="btn btn-primary">Subscribe</button>
+              </form>
+
+              {% if success_message %} 
+                <br><h1 style="color: green;">{{success_message}}</h1>
+              {% endif%}
+            {% endif %}
 
           </div>
         </center>
