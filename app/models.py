@@ -42,8 +42,12 @@ class Post(models.Model):
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     bookmarks = models.ManyToManyField(User, related_name='bookmarks', default=None, blank=True)
+    likes = models.ManyToManyField(User, related_name='likes', default=None, blank=True)
     is_featured = models.BooleanField(default=False)
     content = models.TextField()
+    
+    def like_count(self):
+        return self.likes.count()
     
 class Comments(models.Model):
     name = models.CharField(max_length=200)
