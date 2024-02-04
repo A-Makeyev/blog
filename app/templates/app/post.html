@@ -9,7 +9,7 @@
                 <div class="page-top">
                     <div class="top flex">
                         <div class="page-name">
-                            <a href="#" class="learn">
+                            <a href="/" class="learn">
                                 <span class="material-icons">keyboard_return</span> 
                                 Go back
                             </a>
@@ -30,12 +30,32 @@
                                 <p class="view-count">{{post.view_count}} view{{post.view_count | pluralize}}</p>
                             </div>
                             <div class="track">
-                            <form action="" method="POST">
-                                <button type="submit" class="btn btn-info">
-                                <i class="uil uil-bookmark-full"></i>
-                                <p class="bookmark">Bookmark</p>
-                                </button>
-                            </form>
+
+                                {% if user.is_authenticated %}
+                                    <form method="POST" action="{% url 'bookmarks' post.slug %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="post_id" value="{{post.id}}">
+
+                                        {% if is_bookmarked %}
+                                            <button type="submit" class="btn btn-info">
+                                                <i class="fa-solid fa-bookmark"></i>
+                                                <p class="bookmark">Remove Bookmark</p>
+                                            </button>
+                                        {% else %}
+                                            <button type="submit" class="btn btn-info">
+                                                <i class="uil uil-bookmark-full"></i>
+                                                <p class="bookmark">Bookmark</p>
+                                            </button>
+                                        {% endif %}
+                                    </form>
+
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="track">
+                                        <i class="uil uil-bookmark-full"></i>
+                                        <p class="bookmark">Bookmark</p>
+                                    </a>
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from app.forms import CommentForm, NewUserForm, SubscribeForm
 from app.models import Comments, Post, Tag, Profile, WebsiteMeta
 from django.http import HttpResponseRedirect
@@ -36,6 +36,7 @@ def index(request):
 
 def post_page(request, slug):
     post = Post.objects.get(slug=slug)
+    is_bookmarked = True if post.bookmarks.filter(id=request.user.id).exists() else False
     comments = Comments.objects.filter(post=post, parent=None)
     form = CommentForm()
     
@@ -62,7 +63,7 @@ def post_page(request, slug):
     post.view_count = 1 if post.view_count is None else post.view_count + 1
     post.save()
     
-    context = { 'post': post, 'form': form, 'comments': comments }
+    context = { 'post': post, 'form': form, 'comments': comments, 'is_bookmarked': is_bookmarked }
     return render(request, 'app/post.html', context)
 
 def tag_page(request, slug):
@@ -114,3 +115,10 @@ def signup(request):
     context = { 'form': form }
     return render(request, 'registration/signup.html', context)
     
+def bookmarks(request, slug):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    if post.bookmarks.filter(id=request.user.id).exists():
+        post.bookmarks.remove(request.user)
+    else:
+        post.bookmarks.add(request.user)
+    return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
