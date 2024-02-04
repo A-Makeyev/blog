@@ -65,7 +65,18 @@ def post_page(request, slug):
     post.view_count = 1 if post.view_count is None else post.view_count + 1
     post.save()
     
-    context = { 'post': post, 'form': form, 'comments': comments, 'is_bookmarked': is_bookmarked, 'is_liked': is_liked, 'likes': likes }
+    # sidebar
+    tags = Tag.objects.all()
+    related_posts = Post.objects.exclude(id=post.id).filter(author=post.author)[0:3]
+    recent_posts = Post.objects.exclude(id=post.id).order_by('-last_updated')[0:3]
+    top_authors = User.objects.annotate(number=Count('post')).order_by('-number')
+    
+    
+    context = { 
+        'post': post, 'form': form, 'comments': comments, 'is_bookmarked': is_bookmarked,
+        'is_liked': is_liked, 'likes': likes, 'tags': tags, 'related_posts': related_posts,
+        'recent_posts': recent_posts, 'top_authors': top_authors
+    }
     return render(request, 'app/post.html', context)
 
 def tag_page(request, slug):
@@ -132,3 +143,15 @@ def likes(request, slug):
     else:
         post.likes.add(request.user)
     return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
+
+def bookmarked_posts(request):
+    bookmarked_posts = Post.objects.filter(bookmarks=request.user)
+    
+    context = { 'bookmarked_posts': bookmarked_posts }
+    return render(request, 'app/bookmarked_posts.html', context)
+
+def liked_posts(request):
+    liked_posts = Post.objects.filter(likes=request.user)
+    
+    context = { 'liked_posts': liked_posts }
+    return render(request, 'app/liked_posts.html', context)
