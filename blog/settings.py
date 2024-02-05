@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'True'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
+#ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
 
 # Application definition
 
@@ -84,8 +84,8 @@ DATABASES = {
     }
 }
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
-DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+# DATABASE_URL = os.environ.get('DATABASE_URL')
+# DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
 
 
 # Password validation
@@ -123,10 +123,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = BASE_DIR / 'upload'
+
 LOGIN_REDIRECT_URL = '/'
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+STORAGES = {
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
 # Following settings only make sense on production and may break development environments.
 # if not DEBUG:
@@ -138,12 +152,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 #     # and creating unique names for each version so they can safely be cached forever.
 #     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     
-STORAGES = {
-    'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-    },
-}
-    
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

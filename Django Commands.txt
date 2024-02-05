@@ -19,6 +19,7 @@ poetry init
 poetry add 'whitenoise[brotli]'
 poetry add gunicorn
 
+python manage.py collectstatic
 python manage.py showmigrations
 python manage.py makemigrations
 python manage.py migrate       
