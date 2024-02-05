@@ -7,7 +7,7 @@ env\Scripts\activate
 deactivate
 pip list
 pip install --upgrade pip
-pip install django, Pillow, dj-database-url, psycopg2-binary, gunicorn
+pip install django, Pillow, dj-database-url, psycopg2-binary, poetry, gunicorn 
 django-admin startproject blog .
 python manage.py runserver 8000
 python manage.py startapp blog
@@ -15,9 +15,17 @@ python manage.py createsuperuser
 
 pip freeze > requirements.txt
 gunicorn blog.wsgi
+poetry init
+poetry add 'whitenoise[brotli]'
+poetry add gunicorn
 
-python manage.py sqlmigrate blog 0001
 python manage.py showmigrations
 python manage.py makemigrations
 python manage.py migrate       
 python manage.py shell
+
+# onredner setup example
+SECRET_KEY = a948889f7b6c896d36223024222ec347
+ALLOWED_HOSTS = blog-ztky.onrender.com localhost
+DATABASE_URL = postgres://blog_lqyb_user:RQ3Z31Ryjuy4zhKsJgqo7nNCbVVOEK83@dpg-cn0au7v109ks73bf7dig-a/blog_lqyb
+DEBUG = False
