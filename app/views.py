@@ -53,14 +53,15 @@ def post_page(request, slug):
                     comment_reply.parent = parent
                     comment_reply.post = post
                     comment_reply.save()
-                    return HttpResponseRedirect(f'{reverse('post_page', kwargs={ 'slug': slug })}#reply-{comment_reply.id}')
+                    # return HttpResponseRedirect(f'{reverse('post_page', kwargs={ 'slug': slug })}#reply-{comment_reply.id}')
             else:
                 comment = comment_form.save(commit=False)
                 post_id = request.POST.get('post_id')
                 post = Post.objects.get(id=post_id)
                 comment.post = post
                 comment.save()
-                return HttpResponseRedirect(f'{reverse('post_page', kwargs={ 'slug': slug })}#comment-{comment.id}')
+                # return HttpResponseRedirect(f'{reverse('post_page', kwargs={ 'slug': slug })}#comment-{comment.id}')
+        return HttpResponseRedirect(reverse('post_page', kwargs={ 'slug': slug }))
                  
     post.view_count = 1 if post.view_count is None else post.view_count + 1
     post.save()
