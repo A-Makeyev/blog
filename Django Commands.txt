@@ -22,3 +22,9 @@ python manage.py showmigrations
 python manage.py makemigrations
 python manage.py migrate       
 python manage.py shell
+
+# onredner setup example
+SECRET_KEY = a948889f7b6c896d36223024222ec347
+ALLOWED_HOSTS = blog-ztky.onrender.com localhost
+DATABASE_URL = postgres://blog_lqyb_user:RQ3Z31Ryjuy4zhKsJgqo7nNCbVVOEK83@dpg-cn0au7v109ks73bf7dig-a/blog_lqyb
+DEBUG = False
